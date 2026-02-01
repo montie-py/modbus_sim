@@ -1,0 +1,6 @@
+# JetBrains IDE
+.idea/
+!.idea/codeStyles/
+!.idea/inspectionProfiles/
+!.idea/misc.xml
+!.idea/modules.xml
