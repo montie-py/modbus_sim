@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from routers import devices, registers, system, telemetry, values
+from routers import devices
 
 app = FastAPI()
 app.include_router(devices.router)

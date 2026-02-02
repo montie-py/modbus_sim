@@ -1,14 +1,13 @@
 from datetime import datetime
 
-from fastapi import APIRouter, Depends, HTTPException
-from typing import List, Optional
-from api.api.app.schemas.device import (
+from fastapi import APIRouter
+from typing import List
+from app.api.schemas.device import (
     DeviceCreate,
     DeviceUpdate,
     DeviceRead,
     DeviceStatus
 )
-from api.app.schemas import device
 
 # These will exist once you create your schemas and models
 # from app.schemas.device import DeviceCreate, DeviceUpdate, DeviceRead

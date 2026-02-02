@@ -1,7 +1,6 @@
-from fastapi import APIRouter, Depends, HTTPException
-from sqlalchemy.orm import Session
+from fastapi import APIRouter
 
-from api.api.app.schemas.register import (
+from app.api.schemas.register import (
     RegisterCreate,
     RegisterUpdate,
     RegisterRead,

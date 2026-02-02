@@ -1,8 +1,8 @@
-from fastapi import APIRouter, Depends, HTTPException
-from sqlalchemy.orm import Session
+from fastapi import APIRouter, Depends
 from datetime import datetime
+from app.database import get_db
 
-from api.api.app.schemas.telemetry import (
+from app.api.schemas.telemetry import (
     TelemetrySample,
     TelemetryBatch,
     TelemetryQuery,
@@ -25,7 +25,7 @@ router = APIRouter(
 # ---------------------------------------------------------
 @router.get("/", response_model=TelemetryBatch)
 def get_telemetry(
-    query: TelemetryQuery = Depends(),
+    query: TelemetryQuery = Depends(get_db),
     # db: Session = Depends(get_db)
 ):
     # TODO: Replace with ORM query
@@ -84,7 +84,7 @@ def get_latest_telemetry(
 # ---------------------------------------------------------
 @router.get("/stats", response_model=TelemetryStats)
 def get_telemetry_stats(
-    query: TelemetryQuery = Depends(),
+    query: TelemetryQuery = Depends(get_db),
     # db: Session = Depends(get_db)
 ):
     # TODO: ORM aggregation

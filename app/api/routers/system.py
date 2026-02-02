@@ -2,7 +2,7 @@ from fastapi import APIRouter
 from datetime import datetime
 import psutil
 
-from api.api.app.schemas.system import (
+from app.api.schemas.system import (
     HealthStatus,
     SystemMetrics,
     SimulationStatus,
