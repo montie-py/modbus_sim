@@ -6,13 +6,10 @@ from app.api.schemas.system import (
     HealthStatus,
     SystemMetrics,
     SimulationStatus,
-    SystemOverview
+    SystemOverview,
 )
 
-router = APIRouter(
-    prefix="/system",
-    tags=["system"]
-)
+router = APIRouter(prefix="/system", tags=["system"])
 
 
 # ---------------------------------------------------------
@@ -23,8 +20,8 @@ def get_health_status():
     return HealthStatus(
         status="ok",
         timestamp=datetime.utcnow(),
-        database="connected",       # TODO: replace with real DB check
-        simulator="running"         # TODO: replace with real simulation engine state
+        database="connected",  # TODO: replace with real DB check
+        simulator="running",  # TODO: replace with real simulation engine state
     )
 
 
@@ -34,11 +31,11 @@ def get_health_status():
 @router.get("/metrics", response_model=SystemMetrics)
 def get_system_metrics():
     return SystemMetrics(
-        uptime_seconds=psutil.boot_time(),   # TODO: replace with app uptime if needed
+        uptime_seconds=psutil.boot_time(),  # TODO: replace with app uptime if needed
         cpu_percent=psutil.cpu_percent(interval=0.1),
         memory_percent=psutil.virtual_memory().percent,
-        active_devices=0,                    # TODO: query DB
-        active_registers=0                   # TODO: query DB
+        active_devices=0,  # TODO: query DB
+        active_registers=0,  # TODO: query DB
     )
 
 
@@ -48,10 +45,10 @@ def get_system_metrics():
 @router.get("/simulation", response_model=SimulationStatus)
 def get_simulation_status():
     return SimulationStatus(
-        running=True,                        # TODO: real engine state
-        last_tick=None,                      # TODO: track simulation ticks
-        tick_interval=1.0,                   # TODO: load from config
-        strategy_count=0                     # TODO: count active strategies
+        running=True,  # TODO: real engine state
+        last_tick=None,  # TODO: track simulation ticks
+        tick_interval=1.0,  # TODO: load from config
+        strategy_count=0,  # TODO: count active strategies
     )
 
 
@@ -64,7 +61,7 @@ def get_system_overview():
         status="ok",
         timestamp=datetime.utcnow(),
         database="connected",
-        simulator="running"
+        simulator="running",
     )
 
     metrics = SystemMetrics(
@@ -72,18 +69,11 @@ def get_system_overview():
         cpu_percent=psutil.cpu_percent(interval=0.1),
         memory_percent=psutil.virtual_memory().percent,
         active_devices=0,
-        active_registers=0
+        active_registers=0,
     )
 
     simulation = SimulationStatus(
-        running=True,
-        last_tick=None,
-        tick_interval=1.0,
-        strategy_count=0
+        running=True, last_tick=None, tick_interval=1.0, strategy_count=0
     )
 
-    return SystemOverview(
-        health=health,
-        metrics=metrics,
-        simulation=simulation
-    )
+    return SystemOverview(health=health, metrics=metrics, simulation=simulation)

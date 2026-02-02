@@ -7,25 +7,27 @@ from datetime import datetime
 # Shared fields
 # ---------------------------------------------------------
 
+
 class RegisterBase(BaseModel):
     device_id: int = Field(..., description="ID of the parent device")
     address: int = Field(..., ge=0, description="Register address")
     type: str = Field(
         ...,
         example="holding",
-        description="Register type: holding | input | coil | discrete"
+        description="Register type: holding | input | coil | discrete",
     )
     value: float = Field(..., description="Current register value")
     description: Optional[str] = Field(
         None,
         example="Pump pressure reading",
-        description="Optional human-readable description"
+        description="Optional human-readable description",
     )
 
 
 # ---------------------------------------------------------
 # Create
 # ---------------------------------------------------------
+
 
 class RegisterCreate(RegisterBase):
     pass
@@ -34,6 +36,7 @@ class RegisterCreate(RegisterBase):
 # ---------------------------------------------------------
 # Update (partial)
 # ---------------------------------------------------------
+
 
 class RegisterUpdate(BaseModel):
     address: Optional[int] = None
@@ -45,6 +48,7 @@ class RegisterUpdate(BaseModel):
 # ---------------------------------------------------------
 # Read (returned to client)
 # ---------------------------------------------------------
+
 
 class RegisterRead(RegisterBase):
     id: int
@@ -58,6 +62,7 @@ class RegisterRead(RegisterBase):
 # Value update endpoint (optional)
 # ---------------------------------------------------------
 
+
 class RegisterValueUpdate(BaseModel):
     value: float = Field(..., description="New value to write to the register")
 
@@ -66,12 +71,9 @@ class RegisterValueUpdate(BaseModel):
 # Optional: runtime status (if you add simulation state)
 # ---------------------------------------------------------
 
+
 class RegisterStatus(BaseModel):
     register_id: int
     value: float
     last_update: Optional[datetime]
-    status: str = Field(
-        ...,
-        example="active",
-        description="active | stale | error"
-    )
+    status: str = Field(..., example="active", description="active | stale | error")

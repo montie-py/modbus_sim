@@ -4,17 +4,14 @@ from app.api.schemas.register import (
     RegisterCreate,
     RegisterUpdate,
     RegisterRead,
-    RegisterValueUpdate
+    RegisterValueUpdate,
 )
 
 # When ORM is added:
 # from app.models.register import Register
 # from app.database import get_db
 
-router = APIRouter(
-    prefix="/registers",
-    tags=["registers"]
-)
+router = APIRouter(prefix="/registers", tags=["registers"])
 
 
 # ---------------------------------------------------------
@@ -40,7 +37,7 @@ def create_register(
         type=payload.type,
         value=payload.value,
         description=payload.description,
-        created_at=None
+        created_at=None,
     )
 
 
@@ -82,7 +79,7 @@ def get_register(
         type="holding",
         value=42.0,
         description="Example register",
-        created_at=None
+        created_at=None,
     )
 
 
@@ -114,7 +111,7 @@ def update_register(
         type=payload.type or "holding",
         value=payload.value or 42.0,
         description=payload.description or "Updated register",
-        created_at=None
+        created_at=None,
     )
 
 
@@ -144,7 +141,7 @@ def write_register_value(
         type="holding",
         value=payload.value,
         description="Updated via write endpoint",
-        created_at=None
+        created_at=None,
     )
 
 

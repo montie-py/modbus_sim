@@ -1,4 +1,3 @@
-from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, declarative_base
 from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine
 import os
@@ -8,17 +7,14 @@ import os
 # -------------------------------------------------------------------
 # Prefer environment variable; fallback is optional.
 DATABASE_URL = os.getenv(
-    "DATABASE_URL",
-    "postgresql+asyncpg://postgres:postgres@localhost:5432/modbus_sim"
+    "DATABASE_URL", "postgresql+asyncpg://postgres:postgres@localhost:5432/modbus_sim"
 )
 
 # -------------------------------------------------------------------
 # Async SQLAlchemy engine (recommended for FastAPI)
 # -------------------------------------------------------------------
 engine = create_async_engine(
-    DATABASE_URL,
-    echo=False,          # set True for SQL debugging
-    future=True
+    DATABASE_URL, echo=False, future=True  # set True for SQL debugging
 )
 
 # -------------------------------------------------------------------
@@ -30,13 +26,14 @@ AsyncSessionLocal = sessionmaker(
     expire_on_commit=False,
     autoflush=False,
     autocommit=False,
-    future=True
+    future=True,
 )
 
 # -------------------------------------------------------------------
 # Base class for all models
 # -------------------------------------------------------------------
 Base = declarative_base()
+
 
 # -------------------------------------------------------------------
 # FastAPI dependency

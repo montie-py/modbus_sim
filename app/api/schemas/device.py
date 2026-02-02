@@ -7,17 +7,15 @@ from datetime import datetime
 # Base shared fields
 # -----------------------------
 
+
 class DeviceBase(BaseModel):
     name: str = Field(..., example="Boiler Pump Simulator")
     port: int = Field(..., example=5020, description="Modbus/TCP port")
     update_interval: float = Field(
-        example=1.0,
-        description="Seconds between register updates"
+        example=1.0, description="Seconds between register updates"
     )
     strategy: str = Field(
-        ...,
-        example="random",
-        description="Update strategy: random | sine | ramp"
+        ..., example="random", description="Update strategy: random | sine | ramp"
     )
 
 
@@ -25,16 +23,17 @@ class DeviceBase(BaseModel):
 # Create
 # -----------------------------
 
+
 class DeviceCreate(DeviceBase):
     enabled: bool = Field(
-        default=False,
-        description="Whether the simulator should start immediately"
+        default=False, description="Whether the simulator should start immediately"
     )
 
 
 # -----------------------------
 # Update (partial)
 # -----------------------------
+
 
 class DeviceUpdate(BaseModel):
     name: Optional[str] = None
@@ -47,6 +46,7 @@ class DeviceUpdate(BaseModel):
 # -----------------------------
 # Read (returned to client)
 # -----------------------------
+
 
 class DeviceRead(DeviceBase):
     id: int
@@ -61,13 +61,10 @@ class DeviceRead(DeviceBase):
 # Status endpoint
 # -----------------------------
 
+
 class DeviceStatus(BaseModel):
     device_id: int
     enabled: bool
     last_update: Optional[datetime]
     register_count: int
-    status: str = Field(
-        ...,
-        example="running",
-        description="running | stopped | error"
-    )
+    status: str = Field(..., example="running", description="running | stopped | error")

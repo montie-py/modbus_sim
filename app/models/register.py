@@ -9,7 +9,9 @@ class Register(Base):
     __tablename__ = "registers"
 
     id = Column(Integer, primary_key=True, index=True)
-    device_id = Column(Integer, ForeignKey("devices.id", ondelete="CASCADE"), nullable=False)
+    device_id = Column(
+        Integer, ForeignKey("devices.id", ondelete="CASCADE"), nullable=False
+    )
 
     address = Column(Integer, nullable=False, index=True)
     type = Column(String, nullable=False)  # holding | input | coil | discrete

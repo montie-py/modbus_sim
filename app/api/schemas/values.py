@@ -7,6 +7,7 @@ from datetime import datetime
 # Read a single register value
 # ---------------------------------------------------------
 
+
 class RegisterValue(BaseModel):
     register_id: int = Field(..., description="ID of the register")
     device_id: int = Field(..., description="ID of the parent device")
@@ -18,6 +19,7 @@ class RegisterValue(BaseModel):
 # Write/update a single register value
 # ---------------------------------------------------------
 
+
 class RegisterValueWrite(BaseModel):
     value: float = Field(..., description="New value to write to the register")
 
@@ -25,6 +27,7 @@ class RegisterValueWrite(BaseModel):
 # ---------------------------------------------------------
 # Batch read response
 # ---------------------------------------------------------
+
 
 class RegisterValueBatch(BaseModel):
     values: List[RegisterValue] = Field(..., description="List of register values")
@@ -35,18 +38,22 @@ class RegisterValueBatch(BaseModel):
 # Batch write request
 # ---------------------------------------------------------
 
+
 class RegisterValueWriteItem(BaseModel):
     register_id: int = Field(..., description="Register to update")
     value: float = Field(..., description="New value to write")
 
 
 class RegisterValueWriteBatch(BaseModel):
-    writes: List[RegisterValueWriteItem] = Field(..., description="List of register updates")
+    writes: List[RegisterValueWriteItem] = Field(
+        ..., description="List of register updates"
+    )
 
 
 # ---------------------------------------------------------
 # Optional: value metadata (for diagnostics)
 # ---------------------------------------------------------
+
 
 class RegisterValueMeta(BaseModel):
     register_id: int

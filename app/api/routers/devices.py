@@ -2,26 +2,19 @@ from datetime import datetime
 
 from fastapi import APIRouter
 from typing import List
-from app.api.schemas.device import (
-    DeviceCreate,
-    DeviceUpdate,
-    DeviceRead,
-    DeviceStatus
-)
+from app.api.schemas.device import DeviceCreate, DeviceUpdate, DeviceRead, DeviceStatus
 
 # These will exist once you create your schemas and models
 # from app.schemas.device import DeviceCreate, DeviceUpdate, DeviceRead
 # from app.models.device import Device
 # from app.db import get_db
 
-router = APIRouter(
-    prefix="/devices",
-    tags=["devices"]
-)
+router = APIRouter(prefix="/devices", tags=["devices"])
 
 # -----------------------------
 # Device CRUD
 # -----------------------------
+
 
 @router.post("/", summary="Create a new device")
 def create_device(
@@ -70,11 +63,13 @@ def get_device(
         update_interval=1.0,
         strategy="random",
         enabled=True,
-        created_at=datetime.utcnow()
+        created_at=datetime.utcnow(),
     )
 
 
-@router.put("/{device_id}", response_model=DeviceRead, summary="Update device configuration")
+@router.put(
+    "/{device_id}", response_model=DeviceRead, summary="Update device configuration"
+)
 def update_device(
     device_id: int,
     payload: DeviceUpdate,
@@ -91,7 +86,8 @@ def update_device(
         update_interval=payload.update_interval or 1.0,
         strategy=payload.strategy or "random",
         enabled=payload.enabled if payload.enabled is not None else True,
-        created_at=datetime.utcnow() )
+        created_at=datetime.utcnow(),
+    )
 
 
 @router.delete("/{device_id}", summary="Delete a device")
@@ -109,6 +105,7 @@ def delete_device(
 # -----------------------------
 # Simulation control
 # -----------------------------
+
 
 @router.post("/{device_id}/start", summary="Start simulation for a device")
 def start_device(
@@ -138,7 +135,12 @@ def stop_device(
 # Device status
 # -----------------------------
 
-@router.get("/{device_id}/status", response_model=DeviceStatus, summary="Get device runtime status")
+
+@router.get(
+    "/{device_id}/status",
+    response_model=DeviceStatus,
+    summary="Get device runtime status",
+)
 def device_status(
     device_id: int,
     # db = Depends(get_db)
@@ -152,5 +154,5 @@ def device_status(
         enabled=True,
         last_update=datetime.utcnow(),
         register_count=5,
-        status="running"
+        status="running",
     )

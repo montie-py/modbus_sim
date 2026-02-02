@@ -7,8 +7,11 @@ from datetime import datetime
 # Single telemetry sample
 # ---------------------------------------------------------
 
+
 class TelemetrySample(BaseModel):
-    register_id: int = Field(..., description="ID of the register producing the telemetry")
+    register_id: int = Field(
+        ..., description="ID of the register producing the telemetry"
+    )
     device_id: int = Field(..., description="ID of the parent device")
     value: float = Field(..., description="Measured or simulated value")
     timestamp: datetime = Field(..., description="Timestamp of the telemetry sample")
@@ -18,6 +21,7 @@ class TelemetrySample(BaseModel):
 # Batch of telemetry samples
 # ---------------------------------------------------------
 
+
 class TelemetryBatch(BaseModel):
     samples: List[TelemetrySample] = Field(..., description="List of telemetry samples")
     count: int = Field(..., description="Number of samples returned")
@@ -26,6 +30,7 @@ class TelemetryBatch(BaseModel):
 # ---------------------------------------------------------
 # Query parameters for telemetry history
 # ---------------------------------------------------------
+
 
 class TelemetryQuery(BaseModel):
     device_id: Optional[int] = Field(None, description="Filter by device ID")
@@ -38,6 +43,7 @@ class TelemetryQuery(BaseModel):
 # ---------------------------------------------------------
 # Telemetry statistics (optional analytics)
 # ---------------------------------------------------------
+
 
 class TelemetryStats(BaseModel):
     register_id: int
@@ -53,6 +59,7 @@ class TelemetryStats(BaseModel):
 # ---------------------------------------------------------
 # Live telemetry payload (for WebSocket/SSE)
 # ---------------------------------------------------------
+
 
 class TelemetryLive(BaseModel):
     register_id: int

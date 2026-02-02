@@ -5,17 +5,15 @@ from app.api.schemas.values import (
     RegisterValue,
     RegisterValueWrite,
     RegisterValueBatch,
-    RegisterValueWriteBatch
+    RegisterValueWriteBatch,
 )
 
 # When ORM is added:
 # from app.models.register import Register
 # from app.database import get_db
 
-router = APIRouter(
-    prefix="/values",
-    tags=["values"]
-)
+router = APIRouter(prefix="/values", tags=["values"])
+
 
 # ---------------------------------------------------------
 # Read a single register value
@@ -31,10 +29,7 @@ def read_register_value(
     #     raise HTTPException(404, "Register not found")
 
     return RegisterValue(
-        register_id=register_id,
-        device_id=1,
-        value=42.0,
-        timestamp=datetime.utcnow()
+        register_id=register_id, device_id=1, value=42.0, timestamp=datetime.utcnow()
     )
 
 
@@ -60,7 +55,7 @@ def write_register_value(
         register_id=register_id,
         device_id=1,
         value=payload.value,
-        timestamp=datetime.utcnow()
+        timestamp=datetime.utcnow(),
     )
 
 
@@ -83,7 +78,7 @@ def read_values_batch(
             register_id=1,
             device_id=device_id or 1,
             value=55.0,
-            timestamp=datetime.utcnow()
+            timestamp=datetime.utcnow(),
         )
     ]
 
@@ -113,7 +108,7 @@ def write_values_batch(
             register_id=item.register_id,
             device_id=1,
             value=item.value,
-            timestamp=datetime.utcnow()
+            timestamp=datetime.utcnow(),
         )
         for item in payload.writes
     ]

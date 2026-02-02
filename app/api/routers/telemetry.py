@@ -7,17 +7,14 @@ from app.api.schemas.telemetry import (
     TelemetryBatch,
     TelemetryQuery,
     TelemetryStats,
-    TelemetryLive
+    TelemetryLive,
 )
 
 # When ORM is added:
 # from app.models.telemetry import Telemetry
 # from app.database import get_db
 
-router = APIRouter(
-    prefix="/telemetry",
-    tags=["telemetry"]
-)
+router = APIRouter(prefix="/telemetry", tags=["telemetry"])
 
 
 # ---------------------------------------------------------
@@ -46,7 +43,7 @@ def get_telemetry(
             register_id=query.register_id or 1,
             device_id=query.device_id or 1,
             value=42.0,
-            timestamp=datetime.utcnow()
+            timestamp=datetime.utcnow(),
         )
     ]
 
@@ -72,10 +69,7 @@ def get_latest_telemetry(
     #     raise HTTPException(404, "No telemetry found")
 
     return TelemetrySample(
-        register_id=register_id,
-        device_id=1,
-        value=55.3,
-        timestamp=datetime.utcnow()
+        register_id=register_id, device_id=1, value=55.3, timestamp=datetime.utcnow()
     )
 
 
@@ -102,7 +96,7 @@ def get_telemetry_stats(
         avg_value=42.5,
         sample_count=100,
         start_time=query.start_time or now,
-        end_time=query.end_time or now
+        end_time=query.end_time or now,
     )
 
 
@@ -120,5 +114,5 @@ def get_live_telemetry(
         device_id=1,
         value=48.7,
         timestamp=datetime.utcnow(),
-        status="ok"
+        status="ok",
     )

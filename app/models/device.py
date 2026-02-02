@@ -20,7 +20,5 @@ class Device(Base):
 
     # Relationship to registers
     registers = relationship(
-        "Register",
-        back_populates="device",
-        cascade="all, delete-orphan"
+        "Register", back_populates="device", cascade="all, delete-orphan"
     )
