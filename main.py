@@ -1,16 +1,27 @@
-# This is a sample Python script.
+from fastapi import FastAPI
 
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
+# Import your routers
+from app.api.routers.devices import router as devices_router
+from app.api.routers.registers import router as registers_router
+from app.api.routers.telemetry import router as telemetry_router
+
+# If you want to start the simulator on startup:
+# from app.simulator.engine import SimulatorEngine
+
+app = FastAPI(title="Modbus Simulator API")
+
+# Register routers
+app.include_router(devices_router, prefix="/devices", tags=["Devices"])
+app.include_router(registers_router, prefix="/registers", tags=["Registers"])
+app.include_router(telemetry_router, prefix="/telemetry", tags=["Telemetry"])
+
+# Optional: startup event
+# @app.on_event("startup")
+# async def startup_event():
+#     simulator = SimulatorEngine()
+#     await simulator.start()
 
 
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f"Hi, {name}")  # Press Ctrl+F8 to toggle the breakpoint.
-
-
-# Press the green button in the gutter to run the script.
-if __name__ == "__main__":
-    print_hi("PyCharm")
-
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+@app.get("/")
+async def root():
+    return {"status": "ok", "message": "Modbus Simulator API running"}
