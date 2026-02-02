@@ -4,3 +4,5 @@
 !.idea/inspectionProfiles/
 !.idea/misc.xml
 !.idea/modules.xml
+
+.env
