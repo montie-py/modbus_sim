@@ -1,8 +1,15 @@
 from datetime import datetime
 
-from fastapi import APIRouter
+from fastapi import APIRouter, Depends, HTTPException
 from typing import List
 from app.api.schemas.device import DeviceCreate, DeviceUpdate, DeviceRead, DeviceStatus
+from sqlalchemy.ext.asyncio import AsyncSession
+from sqlalchemy import select
+from datetime import datetime
+
+from app.database import get_db
+from app.models.device import Device
+from app.models.register import Register
 
 # These will exist once you create your schemas and models
 # from app.schemas.device import DeviceCreate, DeviceUpdate, DeviceRead
@@ -16,24 +23,42 @@ router = APIRouter(prefix="/devices", tags=["devices"])
 # -----------------------------
 
 
-@router.post("/", summary="Create a new device")
-def create_device(
-    payload: DeviceCreate,
-    # db = Depends(get_db)
-):
-    """
-    Create a new simulated Modbus device.
-    """
-    # TODO: insert into DB
-    return DeviceRead(
-        id=payload.id,
+
+@router.post("/", response_model=DeviceRead, summary="Create a new device")
+async def create_device(payload: DeviceCreate, db: AsyncSession = Depends(get_db)):
+    # Check if device name already exists
+    existing = await db.execute(select(Device).where(Device.name == payload.name))
+    if existing.scalars().first():
+        raise HTTPException(400, detail="Device with this name already exists")
+
+    # Create device row
+    device = Device(
         name=payload.name,
         port=payload.port,
         update_interval=payload.update_interval,
         strategy=payload.strategy,
-        enabled=payload.enabled,
+        description=None,
         created_at=datetime.utcnow(),
     )
+    db.add(device)
+    await db.flush()  # ensures device.id is available
+
+    # Create a default register for the device (optional)
+    # You can remove this if you want registers created separately
+    default_register = Register(
+        device_id=device.id,
+        address=0,
+        type="holding",
+        value=0.0,
+        description="Auto-created default register",
+    )
+    db.add(default_register)
+
+    await db.commit()
+    await db.refresh(device)
+
+    return device
+
 
 
 @router.get("/", response_model=List[DeviceRead], summary="Get all devices")
